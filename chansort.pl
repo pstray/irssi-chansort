@@ -9,7 +9,7 @@ use Irssi::Irc;
 # ======[ Script Header ]===============================================
 
 use vars qw{$VERSION %IRSSI};
-($VERSION) = '$Revision: 1.3 $' =~ / (\d+\.\d+) /;
+($VERSION) = '$Revision: 1.4 $' =~ / (\d+\.\d+) /;
 %IRSSI = (
 	  name        => 'chansort',
 	  authors     => 'Peder Stray',
@@ -24,9 +24,7 @@ use vars qw{$VERSION %IRSSI};
 # --------[ sig_sort_trigger ]------------------------------------------
 
 sub sig_sort_trigger {
-    print "tigger";
     return unless Irssi::settings_get_bool('chansort_autosort');
-    print "sort";
     cmd_chansort();
 }
 
