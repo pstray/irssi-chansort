@@ -11,7 +11,7 @@ $Data::Dumper::Sortkeys = 1;
 # ======[ Script Header ]===============================================
 
 use vars qw{$VERSION %IRSSI};
-($VERSION) = '$Revision: 1.1 $' =~ / (\d+\.\d+) /;
+($VERSION) = '$Revision: 1.2 $' =~ / (\d+\.\d+) /;
 %IRSSI = (
           name        => 'chansort',
           authors     => 'Peder Stray',
@@ -48,7 +48,7 @@ sub cmd_chansort {
 	if (!defined($minwin) || $minwin > $win->{refnum}) {
 	    $minwin = $win->{refnum};
 	}
-	push @windows, [ $key, $win ];
+	push @windows, [ lc $key, $win ];
 
     }
 
