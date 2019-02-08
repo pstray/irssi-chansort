@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2004 by Peder Stray <peder@ninja.no>
+# Copyright (C) 2004-2015 by Peder Stray <peder@ninja.no>
 #
 
 use strict;
@@ -9,7 +9,7 @@ use Irssi::Irc;
 # ======[ Script Header ]===============================================
 
 use vars qw{$VERSION %IRSSI};
-($VERSION) = '$Revision: 1.4 $' =~ / (\d+\.\d+) /;
+($VERSION) = '$Revision: 1.5 $' =~ / (\d+\.\d+) /;
 %IRSSI = (
 	  name        => 'chansort',
 	  authors     => 'Peder Stray',
@@ -37,15 +37,19 @@ sub cmd_chansort {
     my(@windows);
     my($minwin);
 
+    my $netonly = Irssi::settings_get_bool('chansort_netonly');
+
     for my $win (Irssi::windows()) {
 	my $act = $win->{active};
 	my $key;
 
+	my $id = sprintf "%05d", $win->{refnum};
+
 	if ($act->{type} eq 'CHANNEL') {
-	    $key = "C".$act->{server}{tag}.' '.substr($act->{visible_name}, 1);
+	    $key = "C".$act->{server}{tag}.' '.($netonly ? $id : substr($act->{visible_name}, 1));
 	}
 	elsif ($act->{type} eq 'QUERY') {
-	    $key = "Q".$act->{server}{tag}.' '.$act->{visible_name};
+	    $key = "Q".$act->{server}{tag}.' '.($netonly ? $id : $act->{visible_name});
 	}
 	else {
 	    next;
@@ -84,6 +88,7 @@ Irssi::command_bind('chansort', 'cmd_chansort');
 # --------[ Register settings ]-----------------------------------------
 
 Irssi::settings_add_bool('chansort', 'chansort_autosort', 0);
+Irssi::settings_add_bool('chansort', 'chansort_netonly', 0);
 
 # --------[ Register signals ]------------------------------------------
 
