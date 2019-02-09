@@ -1,12 +1,10 @@
 #
-# Copyright (C) 2004-2015 by Peder Stray <peder@ninja.no>
+# Copyright (C) 2004-2019 by Peder Stray <peder@ninja.no>
 #
 
 use strict;
 use Irssi;
 use Irssi::Irc;
-
-# ======[ Script Header ]===============================================
 
 use vars qw{$VERSION %IRSSI};
 ($VERSION) = '$Revision: 1.5 $' =~ / (\d+\.\d+) /;
@@ -19,18 +17,10 @@ use vars qw{$VERSION %IRSSI};
 	  description => 'Sort all channel and query windows',
 	 );
 
-# ======[ Hooks ]=======================================================
-
-# --------[ sig_sort_trigger ]------------------------------------------
-
 sub sig_sort_trigger {
     return unless Irssi::settings_get_bool('chansort_autosort');
     cmd_chansort();
 }
-
-# ======[ Commands ]====================================================
-
-# --------[ CHANSORT ]--------------------------------------------------
 
 # Usage: /CHANSORT
 sub cmd_chansort {
@@ -79,26 +69,11 @@ sub cmd_chansort {
     }
 }
 
-# ======[ Setup ]=======================================================
-
-# --------[ Register commands ]-----------------------------------------
-
 Irssi::command_bind('chansort', 'cmd_chansort');
-
-# --------[ Register settings ]-----------------------------------------
 
 Irssi::settings_add_bool('chansort', 'chansort_autosort', 0);
 Irssi::settings_add_bool('chansort', 'chansort_netonly', 0);
 
-# --------[ Register signals ]------------------------------------------
-
 Irssi::signal_add_last('window item name changed', 'sig_sort_trigger');
 Irssi::signal_add_last('channel created', 'sig_sort_trigger');
 Irssi::signal_add_last('query created', 'sig_sort_trigger');
-
-# ======[ END ]=========================================================
-
-# Local Variables:
-# header-initial-hide: t
-# mode: header-minor
-# end:
